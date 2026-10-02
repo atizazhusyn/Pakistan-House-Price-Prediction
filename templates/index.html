@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏠 Pakistan House Price Prediction</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2E86AB 0%, #A23B72 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: flex;
+            min-height: 600px;
+        }
+
+        .form-section {
+            flex: 1;
+            padding: 40px;
+            background: #f8f9fa;
+        }
+
+        .results-section {
+            flex: 1;
+            padding: 40px;
+            background: white;
+            border-left: 1px solid #e9ecef;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2E86AB;
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        select:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: #2E86AB;
+        }
+
+        .slider-container {
+            margin-bottom: 20px;
+        }
+
+        .slider-value {
+            display: inline-block;
+            margin-left: 10px;
+            font-weight: bold;
+            color: #2E86AB;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #2E86AB 0%, #A23B72 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .prediction-card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8f4fd 100%);
+            border: 2px solid #2E86AB;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 10px 0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(46, 134, 171, 0.1);
+        }
+
+        .prediction-card h3 {
+            color: #2E86AB;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .price-display {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #A23B72;
+            margin-bottom: 10px;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border: 2px solid #856404;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .summary-card h3 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+
+        .summary-price {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #856404;
+            margin: 5px 0;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #2E86AB;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: none;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .info-section {
+            background: #e8f4fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .info-section h3 {
+            color: #2E86AB;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            background: #343a40;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+
+            .results-section {
+                border-left: none;
+                border-top: 1px solid #e9ecef;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏠 Pakistan House Price Prediction</h1>
+            <p>Predict house prices using advanced machine learning models</p>
+        </div>
+
+        <div class="main-content">
+            <div class="form-section">
+                <div class="info-section">
+                    <h3>📊 Property Information</h3>
+                    <p>Fill in the details below to get price predictions from multiple ML models.</p>
+                </div>
+
+                <form id="predictionForm">
+                    <div class="form-group">
+                        <label for="property_type">🏢 Property Type</label>
+                        <select id="property_type" name="property_type" required>
+                            <option value="">Select Property Type</option>
+                            {% for ptype in unique_values.property_types %}
+                            <option value="{{ ptype }}">{{ ptype }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">📍 Location/Area</label>
+                        <select id="location" name="location" required>
+                            <option value="">Select Location</option>
+                            {% for loc in unique_values.locations %}
+                            <option value="{{ loc }}">{{ loc }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="city">🌆 City</label>
+                        <select id="city" name="city" required>
+                            <option value="">Select City</option>
+                            {% for c in unique_values.cities %}
+                            <option value="{{ c }}">{{ c }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="purpose">🎯 Purpose</label>
+                        <select id="purpose" name="purpose" required>
+                            <option value="">Select Purpose</option>
+                            {% for purp in unique_values.purposes %}
+                            <option value="{{ purp }}">{{ purp }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="baths">🛁 Bathrooms</label>
+                        <input type="number" id="baths" name="baths" min="1" max="10" value="2" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="beds">🛏️ Bedrooms</label>
+                        <input type="number" id="beds" name="beds" min="1" max="20" value="2" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="area">📐 Area (sq ft)</label>
+                        <input type="number" id="area" name="area" min="100" max="50000" value="1000" step="100" required>
+                    </div>
+
+                    <button type="submit" class="btn" id="predictBtn">🔮 Predict Price</button>
+                </form>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Analyzing property data...</p>
+                </div>
+            </div>
+
+            <div class="results-section">
+                <div class="info-section">
+                    <h3>💰 Price Predictions</h3>
+                    <p>Predictions from different machine learning models will appear here.</p>
+                </div>
+
+                <div id="alertContainer"></div>
+
+                <div id="resultsContainer">
+                    <!-- Results will be displayed here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Built with ❤️ using Flask | Pakistan House Price Prediction Project</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const predictBtn = document.getElementById('predictBtn');
+            const loading = document.getElementById('loading');
+            const resultsContainer = document.getElementById('resultsContainer');
+            const alertContainer = document.getElementById('alertContainer');
+
+            // Show loading
+            predictBtn.disabled = true;
+            predictBtn.textContent = 'Analyzing...';
+            loading.style.display = 'block';
+            alertContainer.innerHTML = '';
+            resultsContainer.innerHTML = '';
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Display results
+                    displayResults(data);
+                    showAlert('Predictions generated successfully!', 'success');
+                } else {
+                    showAlert('Error: ' + (data.error || 'Unknown error'), 'error');
+                }
+            } catch (error) {
+                showAlert('Network error: ' + error.message, 'error');
+            } finally {
+                // Hide loading
+                predictBtn.disabled = false;
+                predictBtn.textContent = '🔮 Predict Price';
+                loading.style.display = 'none';
+            }
+        });
+
+        function displayResults(data) {
+            const resultsContainer = document.getElementById('resultsContainer');
+            let html = '';
+
+            // Individual model predictions
+            Object.entries(data.predictions).forEach(([model, price]) => {
+                html += `
+                    <div class="prediction-card">
+                        <h3>${model}</h3>
+                        <div class="price-display">${price}</div>
+                    </div>
+                `;
+            });
+
+            // Summary
+            html += `
+                <div class="summary-card">
+                    <h3>📊 Prediction Summary</h3>
+                    <div class="summary-price">Average Price: ${data.summary.average}</div>
+                    <div class="summary-price">Price Range: ${data.summary.range}</div>
+                    <div style="margin-top: 15px; color: #856404; font-weight: bold;">
+                        💡 Realistic Range: ${data.summary.realistic_range}
+                    </div>
+                    <p style="margin-top: 10px; font-size: 14px; color: #666;">
+                        Consider this as a rough estimate. Actual prices depend on many external factors.
+                    </p>
+                </div>
+            `;
+
+            resultsContainer.innerHTML = html;
+        }
+
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            const alertClass = type === 'error' ? 'alert-error' : 'alert-success';
+            alertContainer.innerHTML = `<div class="alert ${alertClass}">${message}</div>`;
+        }
+    </script>
+</body>
+</html>
