@@ -1,5 +1,11 @@
 # Pakistan House Price Prediction
 
+## See it working
+
+Enter a property and the app returns a price estimate. This example is a house for sale in DHA Defence, Islamabad, with 3 bathrooms and 4 bedrooms.
+
+![House price prediction for a DHA Defence house in Islamabad](screenshots/app-working.png)
+
 ## Overview
 This project focuses on predicting house prices in various cities of Pakistan using machine learning techniques. The dataset contains features such as property type, location, city, number of baths, purpose (e.g., for sale), number of bedrooms, area in square feet, and price.
 
