@@ -14,7 +14,7 @@ from pathlib import Path
 # Page configuration
 st.set_page_config(
     page_title="Pakistan House Price Prediction",
-    page_icon="🏠",
+    page_icon=" ",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -125,13 +125,13 @@ def format_currency(amount):
 
 def main():
     # Header
-    st.markdown('<h1 class="main-header">🏠 Pakistan House Price Prediction</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="main-header">Pakistan House Price Prediction</h1>', unsafe_allow_html=True)
     st.markdown("---")
 
     # Sidebar
     with st.sidebar:
         st.markdown('<div class="sidebar-info">', unsafe_allow_html=True)
-        st.markdown("### 📊 About This App")
+        st.markdown("### About This App")
         st.markdown("""
         This application predicts house prices in Pakistan using multiple machine learning models:
 
@@ -144,7 +144,7 @@ def main():
         """)
         st.markdown('</div>', unsafe_allow_html=True)
 
-        st.markdown("### 🔧 How to Use")
+        st.markdown("### How to Use")
         st.markdown("""
         1. Fill in the property details in the form
         2. Click 'Predict Price' to get estimates
@@ -156,17 +156,17 @@ def main():
     models, encoders, scalers, unique_values = load_models_and_preprocessing()
 
     if models is None:
-        st.error("❌ Models not found! Please run the training script first.")
+        st.error("Models not found. Please run the training script first.")
         st.code("python train_and_save_models.py")
         return
 
-    st.success(f"✅ Loaded {len(models)} trained models successfully!")
+    st.success(f"Loaded {len(models)} trained models successfully.")
 
     # Main content
     col1, col2 = st.columns([2, 1])
 
     with col1:
-        st.markdown("### 🏡 Property Details")
+        st.markdown("### Property Details")
 
         # Create form
         with st.form("prediction_form"):
@@ -234,16 +234,16 @@ def main():
                 )
 
             # Submit button
-            submitted = st.form_submit_button("🔮 Predict Price", use_container_width=True)
+            submitted = st.form_submit_button("Predict Price", use_container_width=True)
 
     with col2:
-        st.markdown("### 📈 Quick Stats")
+        st.markdown("### Quick Stats")
         st.metric("Available Models", len(models))
         st.metric("Cities Covered", len(unique_values['cities']))
         st.metric("Locations Covered", len(unique_values['locations']))
 
         # Model performance preview
-        st.markdown("### 🎯 Model Performance")
+        st.markdown("### Model Performance")
         st.info("Models trained on ~49K properties with R² scores ranging from 0.81-0.87")
 
     # Prediction logic
@@ -256,7 +256,7 @@ def main():
             )
 
             st.markdown("---")
-            st.markdown("### 💰 Price Predictions")
+            st.markdown("### Price Predictions")
 
             # Get predictions from all models
             predictions = {}
@@ -282,7 +282,7 @@ def main():
             min_price = min(prices)
             max_price = max(prices)
 
-            st.markdown("### 📊 Prediction Summary")
+            st.markdown("### Prediction Summary")
             col1, col2, col3 = st.columns(3)
 
             with col1:
@@ -300,7 +300,7 @@ def main():
             realistic_low = avg_price * (1 - margin)
             realistic_high = avg_price * (1 + margin)
 
-            st.success(f"💡 **Realistic Price Range:** {format_currency(realistic_low)} - {format_currency(realistic_high)}")
+            st.success(f"Realistic Price Range: {format_currency(realistic_low)} - {format_currency(realistic_high)}")
 
             st.info("""
             **Note:** House prices can vary significantly based on market conditions,
@@ -309,14 +309,14 @@ def main():
             """)
 
         except Exception as e:
-            st.error(f"❌ Error making prediction: {str(e)}")
+            st.error(f"Error making prediction: {str(e)}")
             st.error("Please check your input values and try again.")
 
     # Footer
     st.markdown("---")
     st.markdown("""
     <div style="text-align: center; color: #666;">
-        <p>Built with ❤️ using Streamlit | Pakistan House Price Prediction Project</p>
+        <p>Pakistan House Price Prediction</p>
     </div>
     """, unsafe_allow_html=True)
 

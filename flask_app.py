@@ -91,7 +91,7 @@ def home():
     """Render the main page"""
     if models is None:
         return """
-        <h1>❌ Models not found!</h1>
+        <h1>Models not found</h1>
         <p>Please run <code>python train_and_save_models.py</code> first to train and save the models.</p>
         <a href="/train">Train Models</a>
         """
@@ -148,11 +148,11 @@ def predict():
 def train_page():
     """Page to trigger model training"""
     return """
-    <h1>🤖 Train Models</h1>
+    <h1>Train Models</h1>
     <p>Run this command in your terminal:</p>
     <code>python train_and_save_models.py</code>
     <br><br>
-    <a href="/">← Back to Home</a>
+    <a href="/">Back to Home</a>
     """
 
 @app.route('/api/models')

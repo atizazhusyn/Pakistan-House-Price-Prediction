@@ -2,7 +2,7 @@
 
 ## See it working
 
-Enter a property and the app returns a price estimate. This example is a house for sale in DHA Defence, Islamabad, with 3 bathrooms and 4 bedrooms.
+Enter a property and the app returns a price estimate. This example is a house for sale in DHA Defence, Islamabad, with 3 bathrooms, 4 bedrooms, and 2,500 sq ft.
 
 ![House price prediction for a DHA Defence house in Islamabad](screenshots/app-working.png)
 
